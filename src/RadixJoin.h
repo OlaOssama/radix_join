@@ -11,7 +11,9 @@ class RadixJoin
 
 	public:
 
-		RadixJoin(Relation *innerRelation, Relation *outerRelation);
+		RadixJoin(Relation *innerRelation,
+				Relation *outerRelation,
+				uint64_t radix_bits);
 
 		static uint64_t MATCH_COUNTER;
 		static uint64_t thread_num;

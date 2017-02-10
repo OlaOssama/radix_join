@@ -19,7 +19,9 @@ uint64_t RadixJoin::thread_num = 0;
 uint64_t RadixJoin::part_num = 0;
 uint64_t RadixJoin::parts_per_thread = 0;
 
-RadixJoin::RadixJoin(Relation *innerRelation, Relation *outerRelation)
+RadixJoin::RadixJoin(Relation *innerRelation,
+		Relation *outerRelation,
+		uint64_t radix_bits)
 {
 	if (innerRelation->getSize() < outerRelation->getSize())
 	{
@@ -31,6 +33,7 @@ RadixJoin::RadixJoin(Relation *innerRelation, Relation *outerRelation)
 		this->innerRelation = outerRelation;
 		this->outerRelation = innerRelation;
 	}
+	RadixJoin::part_num = 1 << radix_bits;
 }
 
 void RadixJoin::join()

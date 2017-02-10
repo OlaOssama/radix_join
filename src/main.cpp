@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 	RadixJoin::thread_num = atoi(argv[1]);
 
 	// Number of partitions
-	RadixJoin::part_num = atoi(argv[2]);
+	uint64_t radix_bits = atoi(argv[2]);
 	RadixJoin::parts_per_thread = RadixJoin::part_num
 		/ RadixJoin::thread_num;
 
@@ -39,17 +39,22 @@ int main(int argc, char *argv[]) {
 	uint64_t innerRelationSize = l_size;
 	uint64_t outerRelationSize = r_size;
 
+	// Create relations
 	Pool::allocate(Config::ALLOCATION_FACTOR *
 			(innerRelationSize+outerRelationSize) *
 			sizeof(Tuple));
 	Relation *innerRelation = new Relation(innerRelationSize);
 	Relation *outerRelation = new Relation(outerRelationSize);
 
+	// Generate values
 	srand (time(NULL));
 	innerRelation->fillRandomValues(1, max_rand);
 	outerRelation->fillRandomValues(1, max_rand);
 
-	RadixJoin *r_join = new RadixJoin(innerRelation, outerRelation);
+	// Join
+	RadixJoin *r_join =
+		new RadixJoin(innerRelation, outerRelation, radix_bits);
+
 	r_join->join();
 	delete r_join;
 
