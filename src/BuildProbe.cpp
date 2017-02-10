@@ -22,7 +22,7 @@
 	} while(0)
 
 //#define HASH_BITS(KEY, N) ((KEY) % N)
-#define HASH_BITS(KEY, RBITS) (((KEY) & (RBITS)) >> (3))
+#define HASH_BITS(KEY, RBITS) (((KEY) & (RBITS)) >> (0))
 
 BuildProbe::BuildProbe(uint64_t *innerPartitionSizes,
 		uint64_t *outerPartitionSizes,
@@ -59,9 +59,10 @@ void* BuildProbe::execute(void* context)
 		outerPart = (Tuple *) task->outerPartitions[i];
 
 		// Allocate hash table
-		N = task->innerPartitionSizes[i];
 		uint64_t *hashTableNext =
-				(uint64_t*) calloc(N, sizeof(uint64_t));
+			(uint64_t*) calloc(task->innerPartitionSizes[i],
+				sizeof(uint64_t));
+		N = task->innerPartitionSizes[i];
 		NEXT_POW_2(N);
 		uint64_t *hashTableBucket =
 				(uint64_t*) calloc(N, sizeof(uint64_t));
@@ -69,22 +70,21 @@ void* BuildProbe::execute(void* context)
 		// Build hash table
 		for (uint64_t t = 0; t < task->innerPartitionSizes[i];)
 		{
-			uint64_t idx = HASH_BITS(innerPart[t].key, N);
+			uint64_t idx = HASH_BITS(innerPart[t].key, N-1);
 
 			hashTableNext[t] = hashTableBucket[idx];
-			hashTableBucket[idx]  = t++;
+			hashTableBucket[idx] = ++t;
 		}
 
 		// Probe hash table
 		for (uint64_t t = 0; t < task->outerPartitionSizes[i]; t++)
 		{
-			uint64_t idx = HASH_BITS(outerPart[t].key, N);
+			uint64_t idx = HASH_BITS(outerPart[t].key, N-1);
 			for (uint64_t hit = hashTableBucket[idx];
 				hit > 0;
 				hit = hashTableNext[hit-1])
 			{
-				if (outerPart[t].key ==
-						innerPart[hit - 1].key)
+				if (outerPart[t].key == innerPart[hit-1].key)
 				{
 					++matches;
 				}

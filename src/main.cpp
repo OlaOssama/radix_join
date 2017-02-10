@@ -29,13 +29,6 @@ int main(int argc, char *argv[]) {
 	// Random range maximum
 	uint64_t max_rand = atoi(argv[5]);
 
-	printf("%lu,%lu,%lu,%lu,%lu,",
-			RadixJoin::thread_num,
-			RadixJoin::part_num,
-			l_size,
-			r_size,
-			max_rand);
-
 	uint64_t innerRelationSize = l_size;
 	uint64_t outerRelationSize = r_size;
 
@@ -58,8 +51,17 @@ int main(int argc, char *argv[]) {
 	r_join->join();
 	delete r_join;
 
+	// Output configuration
+	printf("%lu,%lu,%lu,%lu,%lu,",
+			RadixJoin::thread_num,
+			RadixJoin::part_num,
+			l_size,
+			r_size,
+			max_rand);
+
+	// Output results
 	Performance::printRuntimes();
-	// Performance::printThreadRuntimes();
+	//Performance::printThreadRuntimes();
 
 	Pool::freeAll();
 

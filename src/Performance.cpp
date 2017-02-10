@@ -45,7 +45,7 @@ void Performance::finishThread(uint64_t thread_id)
 
 void Performance::printRuntimes()
 {
-	printf("%lu,%f,%f,%f\n",
+	printf("%f,%f,%f\n",
 			Performance::phaseTime[JOIN_TOTAL],
 			Performance::phaseTime[PARTITIONING],
 			Performance::phaseTime[BUILD_PROBE]);
