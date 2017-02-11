@@ -11,7 +11,6 @@
 
 Histogram::Histogram(Relation* relation)
 {
-
 	this->relation = relation;
 	this->values =
 		(uint64_t *) calloc(RadixJoin::part_num, sizeof(uint64_t));
@@ -25,19 +24,16 @@ Histogram::Histogram(Relation* relation)
 
 Histogram::~Histogram()
 {
-
 	free(values);
-
 }
 
 uint64_t* Histogram::computePrefixSum()
 {
-
 	uint64_t *prefix =
 		(uint64_t*) calloc(RadixJoin::part_num , sizeof(uint64_t));
 
 	uint64_t sum = 0;
-	for (uint32_t p = 0; p < RadixJoin::part_num ; ++p)
+	for (uint32_t p = 0; p < RadixJoin::part_num; ++p)
 	{
 		prefix[p] = sum;
 		sum += this->getHistogram()[p];
@@ -52,22 +48,17 @@ uint64_t* Histogram::computePrefixSum()
 	}
 
 	return prefix;
-
 }
 
 uint64_t* Histogram::getHistogram()
 {
-
 	return this->values;
-
 }
 
 void Histogram::debugPrint()
 {
-
 	for (uint64_t i = 0; i < RadixJoin::part_num; i++)
 	{
 		printf("%lu: %lu\n", i, this->values[i]);
 	}
-
 }

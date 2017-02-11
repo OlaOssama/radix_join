@@ -68,15 +68,20 @@ void RadixJoin::partitioning()
 
 	// Scatter inner relation tuples to new locations
 	Tuple * innerPartitions = NULL;
+
+	uint64_t innerPaddedSize = innerOffsets[RadixJoin::part_num-1] +
+		innerHistogram->getHistogram()[RadixJoin::part_num-1];
+
+	innerPartitions =
+		(Tuple *) Pool::getMemory(innerPaddedSize * sizeof(Tuple));
+
 	Tuple * const idata = this->innerRelation->getData();
 
 	uint64_t *inPartitionCounters =
 		(uint64_t *) calloc(RadixJoin::part_num, sizeof(uint64_t));
 
-	innerPartitions = (Tuple *)
-		Pool::getMemory(this->innerRelation->getSize() * sizeof(Tuple));
-
-	for (uint64_t i = 0; i < this->innerRelation->getSize(); ++i) {
+	for (uint64_t i = 0; i < this->innerRelation->getSize(); ++i)
+	{
 		uint64_t clusterIndex =
 			RADIX_BITS(idata[i].key, RadixJoin::part_num-1, 0);
 		innerPartitions[innerOffsets[clusterIndex]
@@ -93,8 +98,11 @@ void RadixJoin::partitioning()
 	inPartitionCounters =
 		(uint64_t *) calloc(RadixJoin::part_num, sizeof(uint64_t));
 
-	outerPartitions = (Tuple *)
-		Pool::getMemory(this->outerRelation->getSize() * sizeof(Tuple));
+	uint64_t outerPaddedSize = innerOffsets[RadixJoin::part_num-1] +
+		outerHistogram->getHistogram()[RadixJoin::part_num-1];
+	
+	outerPartitions =
+		(Tuple *) Pool::getMemory(outerPaddedSize * sizeof(Tuple));
 
 	for (uint64_t i = 0; i < this->outerRelation->getSize(); ++i)
 	{
@@ -155,18 +163,20 @@ void RadixJoin::partitioning()
 						buildprobe_job);
 	}
 
-	for (uint64_t i = 0; i < RadixJoin::thread_num; i++){
-		pthread_join(thread_id[i], NULL);
-		//Performance::finishThread(i);
-	}
-
 	Performance::finishPhase(BUILD_PROBE);
 	Performance::finishPhase(JOIN_TOTAL);
 
 	delete(innerHistogram);
 	delete(outerHistogram);
 
+	for (uint64_t i = 0; i < RadixJoin::thread_num; i++){
+		pthread_join(thread_id[i], NULL);
+		//Performance::finishThread(i);
+	}
+
+	delete(innerPartitions);
+	delete(outerPartitions);
+	
 	free(innerOffsets);
 	free(outerOffsets);
-
 }
