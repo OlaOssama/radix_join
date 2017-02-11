@@ -18,7 +18,6 @@ enum phase_type_t {
 
 class Performance 
 {
-
 	public:
 
 		static void beginPhase(phase_type_t phase);
@@ -35,9 +34,6 @@ class Performance
 
 	protected:
 
-		static uint64_t innerPartitionSizes[Config::PART_COUNT];
-		static uint64_t outerPartitionSizes[Config::PART_COUNT];
-
 		static clock_t threadBegin[Config::N_CPUS];
 		static clock_t threadFinish[Config::N_CPUS];
 
@@ -47,7 +43,6 @@ class Performance
 		int timeval_subtract (struct timeval *result,
 				struct timeval *x,
 				struct timeval *y);
-
 };
 
 #endif

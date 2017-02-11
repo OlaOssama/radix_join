@@ -163,9 +163,6 @@ void RadixJoin::partitioning()
 						buildprobe_job);
 	}
 
-	Performance::finishPhase(BUILD_PROBE);
-	Performance::finishPhase(JOIN_TOTAL);
-
 	delete(innerHistogram);
 	delete(outerHistogram);
 
@@ -174,9 +171,9 @@ void RadixJoin::partitioning()
 		//Performance::finishThread(i);
 	}
 
-	delete(innerPartitions);
-	delete(outerPartitions);
-	
+	Performance::finishPhase(BUILD_PROBE);
+	Performance::finishPhase(JOIN_TOTAL);
+
 	free(innerOffsets);
 	free(outerOffsets);
 }
