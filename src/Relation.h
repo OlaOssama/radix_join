@@ -7,23 +7,21 @@
 
 class Relation
 {
-	public:
+public:
 
-		Relation(uint64_t relationSize);
-		~Relation();
+  Relation (uint64_t relationSize);
+  ~Relation ();
 
-		uint64_t getSize();
-		Tuple* getData();
+  uint64_t getSize ();
+  Tuple *getData ();
 
-		void fillUniqueValues(uint64_t startKeyValue,
-				uint64_t startRidValue);
-		void fillRandomValues(uint64_t startKeyValue,
-				uint64_t startRidValue);
+  void fillUniqueValues (uint64_t startKeyValue, uint64_t startRidValue);
+  void fillRandomValues (uint64_t startKeyValue, uint64_t startRidValue);
 
-	protected:
+protected:
 
-		uint64_t relationSize;
-		Tuple *data;
+    uint64_t relationSize;
+  Tuple *data;
 
 };
 

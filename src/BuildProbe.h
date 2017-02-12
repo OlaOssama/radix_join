@@ -9,24 +9,23 @@
 
 class BuildProbe
 {
-	public:
+public:
 
-		BuildProbe(uint64_t *innerPartitionSizes,
-			uint64_t *outerPartitionSizes,
-			Tuple **innerPartitions,
-			Tuple **outerPartitions,
-			uint64_t thread_id);
+  BuildProbe (uint64_t * innerPartitionSizes,
+	      uint64_t * outerPartitionSizes,
+	      Tuple ** innerPartitions,
+	      Tuple ** outerPartitions, uint64_t thread_id);
 
-		static void * execute(void * context);
+  static void *execute (void *context);
 
-	protected:
+protected:
 
-		uint64_t *innerPartitionSizes;
-		uint64_t *outerPartitionSizes;
-		Tuple **innerPartitions;
-		Tuple **outerPartitions;
+    uint64_t * innerPartitionSizes;
+  uint64_t *outerPartitionSizes;
+  Tuple **innerPartitions;
+  Tuple **outerPartitions;
 
-		uint64_t thread_id;
+  uint64_t thread_id;
 
 };
 

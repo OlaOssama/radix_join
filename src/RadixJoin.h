@@ -9,24 +9,23 @@
 class RadixJoin
 {
 
-	public:
+public:
 
-		RadixJoin(Relation *innerRelation,
-				Relation *outerRelation,
-				uint64_t radix_bits);
+  RadixJoin (Relation * innerRelation,
+	     Relation * outerRelation, uint64_t radix_bits);
 
-		static uint64_t MATCH_COUNTER;
-		static uint64_t thread_num;
-		static uint64_t part_num;
-		static uint64_t parts_per_thread;
+  static uint64_t MATCH_COUNTER;
+  static uint64_t thread_num;
+  static uint64_t part_num;
+  static uint64_t parts_per_thread;
 
-		void join();
+  void join ();
 
-	protected:
+protected:
 
-		void partitioning();
-		Relation *innerRelation;
-		Relation *outerRelation;
+  void partitioning ();
+  Relation *innerRelation;
+  Relation *outerRelation;
 
 };
 

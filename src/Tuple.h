@@ -6,9 +6,9 @@
 class Tuple
 {
 
-	public:
-		uint64_t key;
-		uint64_t rid;
+public:
+  uint64_t key;
+  uint64_t rid;
 
 };
 

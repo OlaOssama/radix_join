@@ -5,18 +5,18 @@
 
 class Histogram
 {
-	public:
-		Histogram(Relation *relation);
-		~Histogram();
+public:
+  Histogram (Relation * relation);
+  ~Histogram ();
 
-		void debugPrint();
-		uint64_t *computePrefixSum();
-		uint64_t *getHistogram();
+  void debugPrint ();
+  uint64_t *computePrefixSum ();
+  uint64_t *getHistogram ();
 
-	protected:
+protected:
 
-		Relation *relation;
-		uint64_t *values;
+    Relation * relation;
+  uint64_t *values;
 
 };
 
