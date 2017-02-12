@@ -15,7 +15,7 @@ public:
   static const uint64_t MEMORY_BUFFER_SIZE_BYTES =
     CACHELINES_PER_MEMORY_BUFFER * CACHELINE_SIZE_BYTES;
 
-  static const uint64_t ALLOCATION_FACTOR = 2;
+  static const uint64_t ALLOCATION_FACTOR = 3;
 
 };
 

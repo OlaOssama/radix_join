@@ -15,12 +15,16 @@ public:
   uint64_t getSize ();
   Tuple *getData ();
 
+  uint64_t selfSimilar (uint64_t N, double h);
+
   void fillUniqueValues (uint64_t startKeyValue, uint64_t startRidValue);
-  void fillRandomValues (uint64_t startKeyValue, uint64_t startRidValue);
+  void fillUniform (uint64_t N);
+  void fillNonUniform (uint64_t N);
+  void fillGamma (uint64_t N);
 
 protected:
 
-    uint64_t relationSize;
+  uint64_t relationSize;
   Tuple *data;
 
 };

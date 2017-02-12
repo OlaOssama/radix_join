@@ -41,8 +41,8 @@ main (int argc, char *argv[])
 
   // Generate values
   srand (time (NULL));
-  innerRelation->fillRandomValues (1, max_rand);
-  outerRelation->fillRandomValues (1, max_rand);
+  innerRelation->fillUniform (max_rand);
+  outerRelation->fillNonUniform (max_rand);
 
   // Join
   RadixJoin *r_join =

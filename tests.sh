@@ -6,13 +6,13 @@ if [ ! -e "$OUTPUT_FILE" ]; then
 	echo "threads,partitions,left cardinality,right cardinality,random range max,total time,partitioning time,join time" > out.csv
 fi
 
-for threads in 2
+for threads in 16
 do
-	for max_rand in 100000 1000000
+	for max_rand in 128000
 	do
-		for lsize in 128000 3000000
+		for lsize in 128000 256000 512000 1000000
 		do
-			for radix_bits in 10 11 12 13 14 15 16 17 18 19 20
+			for radix_bits in 4 8 12 16
 			do
 				rsize="$lsize"
 				"$PROGRAM" $threads $radix_bits $lsize $rsize $max_rand >> out.csv

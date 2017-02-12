@@ -4,7 +4,8 @@
 #include <cstdio>
 #include <string.h>
 #include <unistd.h>
-
+#include <math.h>
+#include <random>
 
 #include "Pool.h"
 
@@ -54,22 +55,46 @@ Relation::fillUniqueValues (uint64_t startKeyValue, uint64_t startRidValue)
     }
 }
 
+// Function to generate random integers with self-similar distrubtion
+uint64_t
+Relation::selfSimilar (uint64_t N, double h)
+{
+  return (1 + (uint64_t)
+	  (N * pow (rand () / (float) RAND_MAX, log(h) / log(1.0 - h))));
+}
+
+// Function to generate uniformly distributed datatset
 void
-Relation:: (uint64_t min_value, uint64_t max_value)
+Relation::fillUniform (uint64_t N)
 {
   for (uint64_t i = 0; i < this->relationSize; i++)
     {
-      data[i].key = (uint64_t) (rand () % max_value + min_value) % max_value;
+      data[i].key = (uint64_t) rand () % N + 1;
       this->data[i].rid = i;
     }
 }
 
+// Function to generate non-uniformly distributed datatset
 void
-Relation::fillRandomValues (uint64_t min_value, uint64_t max_value)
+Relation::fillNonUniform (uint64_t N)
 {
   for (uint64_t i = 0; i < this->relationSize; i++)
     {
-      data[i].key = (uint64_t) (rand () % max_value + min_value) % max_value;
+      this->data[i].key = Relation::selfSimilar(N, 0.3);
+      this->data[i].rid = i;
+    }
+}
+
+// Function to generate a dataset with gamma distribution
+void
+Relation::fillGamma (uint64_t N)
+{
+  std::default_random_engine generator;
+  std::gamma_distribution<double> distribution(9.0, 9.0);
+
+  for (uint64_t i = 0; i < this->relationSize; i++)
+    {
+      this->data[i].key = distribution(generator);
       this->data[i].rid = i;
     }
 }
