@@ -55,24 +55,24 @@ Performance::finishThread (uint64_t thread_id)
 void
 Performance::printRuntimes ()
 {
-  printf ("%f,%f,%f\n",
+  printf ("%f,%f,%f,%lu\n",
 	  Performance::phaseTime[JOIN_TOTAL],
 	  Performance::phaseTime[PARTITIONING],
-	  Performance::phaseTime[BUILD_PROBE]);
+	  Performance::phaseTime[BUILD_PROBE],
+	  RadixJoin::MATCH_COUNTER);
 }
 
 void
 Performance::printThreadRuntimes ()
 {
   double checksum = 0;
-  printf ("thread,time\n");
-  for (uint64_t i = 0; i < RadixJoin::part_num; i++)
+  for (uint64_t i = 0; i < RadixJoin::thread_num; i++)
     {
       printf ("%f\n", Performance::threadTime[i]);
-//              printf("%2lu : %f\n", i, Performance::threadTime[i]);
+//printf("%2lu : %f\n", i, Performance::threadTime[i]);
       checksum += Performance::threadTime[i];
     }
-  printf ("total: %f (%f)\n", checksum, Performance::phaseTime[BUILD_PROBE]);
+  printf ("total,%f,%f\n", checksum, Performance::phaseTime[BUILD_PROBE]);
 }
 
 

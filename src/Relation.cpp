@@ -80,7 +80,7 @@ Relation::fillNonUniform (uint64_t N)
 {
   for (uint64_t i = 0; i < this->relationSize; i++)
     {
-      this->data[i].key = Relation::selfSimilar(N, 0.3);
+      this->data[i].key = Relation::selfSimilar(N, 0.6);
       this->data[i].rid = i;
     }
 }

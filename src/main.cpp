@@ -15,6 +15,7 @@
 int
 main (int argc, char *argv[])
 {
+  srand (time (NULL));
 
   // Number of threads
   RadixJoin::thread_num = atoi (argv[1]);
@@ -40,9 +41,9 @@ main (int argc, char *argv[])
   Relation *outerRelation = new Relation (outerRelationSize);
 
   // Generate values
-  srand (time (NULL));
   innerRelation->fillUniform (max_rand);
-  outerRelation->fillNonUniform (max_rand);
+  srand (time (NULL));
+  outerRelation->fillUniform (max_rand);
 
   // Join
   RadixJoin *r_join =
@@ -58,7 +59,7 @@ main (int argc, char *argv[])
 
   // Output results
   Performance::printRuntimes ();
-  //Performance::printThreadRuntimes();
+  Performance::printThreadRuntimes();
 
   Pool::freeAll ();
 
