@@ -76,11 +76,11 @@ Relation::fillUniform (uint64_t N)
 
 // Function to generate non-uniformly distributed datatset
 void
-Relation::fillNonUniform (uint64_t N)
+Relation::fillNonUniform (uint64_t N, double h)
 {
   for (uint64_t i = 0; i < this->relationSize; i++)
     {
-      this->data[i].key = Relation::selfSimilar(N, 0.6);
+      this->data[i].key = Relation::selfSimilar(N, h);
       this->data[i].rid = i;
     }
 }

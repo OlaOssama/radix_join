@@ -27,15 +27,14 @@
 BuildProbe::BuildProbe (uint64_t * innerPartitionSizes,
 			uint64_t * outerPartitionSizes,
 			Tuple ** innerPartitions,
-			Tuple ** outerPartitions, uint64_t thread_id)
+			Tuple ** outerPartitions,
+			uint64_t thread_id)
 {
-
   this->innerPartitionSizes = innerPartitionSizes;
   this->innerPartitions = innerPartitions;
   this->outerPartitionSizes = outerPartitionSizes;
   this->outerPartitions = outerPartitions;
   this->thread_id = thread_id;
-
 }
 
 void *
@@ -52,7 +51,7 @@ BuildProbe::execute (void *context)
 
   Performance::beginThread (task->thread_id);
 
-  for (int i = 0; i < RadixJoin::parts_per_thread; i++)
+  for (uint64_t i = 0; i < RadixJoin::parts_per_thread; i++)
     {
       // Retrieve partitions
       innerPart = (Tuple *) task->innerPartitions[i];

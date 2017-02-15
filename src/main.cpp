@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <ctime>
+#include <algorithm>
 
 #include "Relation.h"
 #include "Config.h"
@@ -17,19 +18,19 @@ main (int argc, char *argv[])
 {
   srand (time (NULL));
 
-  // Number of threads
-  RadixJoin::thread_num = atoi (argv[1]);
-
   // Number of partitions
-  uint64_t radix_bits = atoi (argv[2]);
-  RadixJoin::parts_per_thread = RadixJoin::part_num / RadixJoin::thread_num;
+  uint64_t radix_bits = atoi (argv[1]);
+
+  // Number of threads
+  RadixJoin::part_num = 1 << radix_bits;
+  RadixJoin::thread_num = std::min(RadixJoin::part_num, (uint64_t) 16);
 
   // Sizes of both relations
-  uint64_t l_size = atoi (argv[3]);
-  uint64_t r_size = atoi (argv[4]);
+  uint64_t l_size = atoi (argv[2]);
+  uint64_t r_size = atoi (argv[3]);
 
   // Random range maximum
-  uint64_t max_rand = atoi (argv[5]);
+  uint64_t max_rand = atoi (argv[4]);
 
   uint64_t innerRelationSize = l_size;
   uint64_t outerRelationSize = r_size;
@@ -41,9 +42,9 @@ main (int argc, char *argv[])
   Relation *outerRelation = new Relation (outerRelationSize);
 
   // Generate values
-  innerRelation->fillUniform (max_rand);
+  innerRelation->fillNonUniform (max_rand, 0.7);
   srand (time (NULL));
-  outerRelation->fillUniform (max_rand);
+  outerRelation->fillNonUniform (max_rand, 0.7);
 
   // Join
   RadixJoin *r_join =
@@ -59,7 +60,7 @@ main (int argc, char *argv[])
 
   // Output results
   Performance::printRuntimes ();
-  Performance::printThreadRuntimes();
+  // Performance::printThreadRuntimes();
 
   Pool::freeAll ();
 

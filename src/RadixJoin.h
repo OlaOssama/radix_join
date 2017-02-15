@@ -5,6 +5,7 @@
 #include <queue>
 
 #include "Relation.h"
+#include "Tuple.h"
 
 class RadixJoin
 {

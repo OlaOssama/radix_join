@@ -12,7 +12,9 @@
 
 #define TUPLES_PER_CACHELINE (CACHELINE_SIZE_BYTES / sizeof(Tuple))
 
-#define RADIX_BITS(KEY, RBITS, BITS) (((KEY) & (RBITS)) >> (BITS))
+#define HASH(V) ((V >> 7) ^ (V >> 13) ^ (V >> 21) ^ V)
+
+#define RADIX_BITS(KEY, RBITS, BITS) ((HASH(KEY) & (RBITS)) >> (BITS))
 
 uint64_t
   RadixJoin::MATCH_COUNTER = 0;
@@ -38,7 +40,7 @@ RadixJoin::RadixJoin (Relation * innerRelation,
       this->outerRelation = innerRelation;
     }
 
-  RadixJoin::part_num = 1 << radix_bits;
+  // RadixJoin::part_num = 1 << radix_bits;
 
   RadixJoin::parts_per_thread = RadixJoin::part_num / RadixJoin::thread_num;
 
@@ -51,6 +53,18 @@ RadixJoin::join ()
   RadixJoin::partitioning ();
 
 }
+
+/**********************************
+void
+RadixJoin::cluster (Tuple ** dst1,
+		    uint64_t * split,
+		    Tuple * relation,
+		    uint64_t size,
+		    uint64_t R, uint64_t D)
+{
+  uint64_t M = (1 >> D) - 1 << R;
+}
+***********************************/
 
 void
 RadixJoin::partitioning ()

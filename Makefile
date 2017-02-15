@@ -27,7 +27,7 @@ PROJECT_NAME		= radix_join
 
 ########################################
 
-CCFLAGS 		= -g
+CCFLAGS 		= -g -std=gnu++11
 LINKFLAGS 		= -lpthread
 
 ########################################

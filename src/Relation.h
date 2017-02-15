@@ -19,7 +19,7 @@ public:
 
   void fillUniqueValues (uint64_t startKeyValue, uint64_t startRidValue);
   void fillUniform (uint64_t N);
-  void fillNonUniform (uint64_t N);
+  void fillNonUniform (uint64_t N, double h);
   void fillGamma (uint64_t N);
 
 protected:
