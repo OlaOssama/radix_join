@@ -42,9 +42,9 @@ main (int argc, char *argv[])
   Relation *outerRelation = new Relation (outerRelationSize);
 
   // Generate values
-  innerRelation->fillNonUniform (max_rand, 0.7);
+  innerRelation->fillUniform (max_rand);
   srand (time (NULL));
-  outerRelation->fillNonUniform (max_rand, 0.7);
+  outerRelation->fillUniform (max_rand);
 
   // Join
   RadixJoin *r_join =
