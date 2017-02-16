@@ -54,18 +54,6 @@ RadixJoin::join ()
 
 }
 
-/**********************************
-void
-RadixJoin::cluster (Tuple ** dst1,
-		    uint64_t * split,
-		    Tuple * relation,
-		    uint64_t size,
-		    uint64_t R, uint64_t D)
-{
-  uint64_t M = (1 >> D) - 1 << R;
-}
-***********************************/
-
 void
 RadixJoin::partitioning ()
 {
