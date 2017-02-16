@@ -20,6 +20,13 @@ public:
   static uint64_t part_num;
   static uint64_t parts_per_thread;
 
+  void
+  RadixJoin::cluster (Tuple ** dst,
+		      uint64_t * split,
+		      Tuple * relation,
+		      uint64_t size,
+		      uint64_t R, uint64_t D);
+
   void join ();
 
 protected:
