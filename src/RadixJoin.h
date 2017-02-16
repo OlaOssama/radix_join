@@ -22,6 +22,13 @@ public:
 
   void join ();
 
+  void
+  RadixJoin::cluster (Tuple ** dst1,
+		      uint64_t * split,
+		      Tuple * relation,
+		      uint64_t size,
+		      uint64_t R, uint64_t D);
+
 protected:
 
   void partitioning ();
